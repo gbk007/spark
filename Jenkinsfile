@@ -31,7 +31,7 @@ pipeline
         {
             steps
             {
-                sh '''sudo cp /home/ec2-user/parllellpipeline/workspace/JenkinsfileSCMpipeline/target/*.war /opt/*tomcat/webapps'''
+                sh '''sudo cp /home/ec2-user/parllellpipeline/workspace/JenkinsfileSCMpipeline/target/*.war /opt/apache-tomcat-10.0.22/webapps'''
             }
         }
     }
