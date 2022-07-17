@@ -1,33 +1,35 @@
-pipeline {
-    Agent any {
-	    stages  {
-		   stage git {
-		      steps  {
-			    git branch: 'main', credentialsId: 'Dhana', url: 'https://github.com/DhanaVinnu/spark.git'
-				 }
-			}
-		   stage maven {
-			   steps  {
-			    bat 'mvn clean install'
-				 }
-			}
-			stage nexus {
-			   steps {
-				nexusPublisher nexusInstanceId: 'nexus_id',
-				nexusRepositoryId: 'maven-snapshots', 
-				packages: [
-				  [$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: './target/sparkjava-hello-world-1.0.war']], 
-				   mavenCoordinate: [artifactId: 'own_dp', groupId: 'pipeline', packaging: 'war', version: '1.0']
-				  ]
-				]
-                 }
-			}
-            stage tomcat {
-               steps {
-                 deploy adapters: [tomcat9(credentialsId: 'tomcat9', path: '', url: 'http://localhost:8082/')], contextPath: 'pipeline', war: '**/*.war'
-                 }
-             }
-		}
+pipeline
+{
+    agent label 'Slave3ofJenkins'
+    stages
+    {
+        stage ('Git Checkout SCM Stage 1')
+        {
+            steps
+            {
+                git branch: 'main', url: 'https://github.com/gbk007/spark.git'
+            }
+        }
+        stage ('Build Stage 2')
+        {
+            steps
+            {
+                sh 'mvn clean install'
+            }
+        }
+        stage ('Push to Artifactory Stage 3')
+        {
+            steps
+            {
+                sh 'sleep 20'   
+            }
+        }
+        stage ('Deploy Stage 4')
+        {
+            steps
+            {
+                sh '''sudo cp /home/ec2-user/jenkinsfile/workspace/JenkinsfileSCMpipeline/target/*.war /opt/*tomcat/webapps'''
+            }
+        }
     }
 }
-	 
