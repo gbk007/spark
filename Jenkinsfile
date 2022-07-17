@@ -1,6 +1,9 @@
 pipeline
 {
-    agent label 'Slave3ofJenkins'
+    agent
+    {
+        label 'Slave3ofJenkins'
+    }
     stages
     {
         stage ('Git Checkout SCM Stage 1')
