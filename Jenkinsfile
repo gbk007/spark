@@ -2,7 +2,7 @@ pipeline
 {
     agent
     {
-        label 'SlaveforParllelpipeline'
+        label 'slaveofjenkinsfile'
     }
     stages
     {
@@ -31,7 +31,7 @@ pipeline
         {
             steps
             {
-                sh '''sudo cp /home/ec2-user/parllellpipeline/workspace/JenkinsfileSCMpipeline/target/*.war /opt/apache-tomcat-10.0.22/webapps'''
+                sh '''sudo cp /home/ec2-user/jenkinsfile/workspace/JenkinsfileSCMpipeline/target/*.war /opt/apache-tomcat-10.0.22/webapps'''
             }
         }
     }
